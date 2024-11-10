@@ -40,3 +40,17 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+      - name: Install Application Inspector
+        run: |
+          dotnet tool install -g Microsoft.CST.ApplicationInspector.CLI
+
+      - name: Run Application Inspector
+        run: |
+          appinspector analyze -s . -f html -o app-inspector-report.html
+
+      - name: Upload Analysis Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-inspector-report
+          path: app-inspector-report.html
