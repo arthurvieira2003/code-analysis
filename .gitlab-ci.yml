@@ -1,0 +1,36 @@
+include:
+  - template: Jobs/Code-Quality.gitlab-ci.yml
+  - template: Security/SAST.gitlab-ci.yml
+
+variables:
+  SAST_JAVA_VERSION: 21
+  SECURE_LOG_LEVEL: "debug"
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+
+stages:
+  - test
+  - code_quality
+  - security
+
+code_quality:
+  stage: code_quality
+  image: registry.gitlab.com/gitlab-org/ci-cd/codequality:latest
+  variables:
+    CODECLIMATE_DEBUG: 1
+    SOURCE_CODE: $CI_PROJECT_DIR
+    TIMEOUT_SECONDS: 1200
+    REPORT_LANGUAGES: java
+  script:
+    - export CODE_QUALITY_IMAGE="registry.gitlab.com/gitlab-org/ci-cd/codequality:latest"
+    - |
+      docker run --rm \
+        --env CODECLIMATE_DEBUG \
+        --volume "$PWD":/code \
+        --volume /var/run/docker.sock:/var/run/docker.sock \
+        "$CODE_QUALITY_IMAGE" /code
+    - test -f gl-code-quality-report.json || echo "[]" > gl-code-quality-report.json
+  artifacts:
+    reports:
+      codequality: gl-code-quality-report.json
+    expire_in: 1 week
+  allow_failure: true
