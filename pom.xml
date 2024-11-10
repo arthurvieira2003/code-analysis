@@ -108,33 +108,4 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>3.1.0</version>
-                <executions>
-                    <execution>
-                        <id>app-inspector</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <executable>appinspector</executable>
-                            <arguments>
-                                <argument>analyze</argument>
-                                <argument>-s</argument>
-                                <argument>${project.basedir}</argument>
-                                <argument>-o</argument>
-                                <argument>${project.build.directory}/app-inspector-report.html</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
 </project>
