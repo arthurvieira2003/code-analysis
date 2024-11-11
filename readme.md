@@ -42,7 +42,7 @@ O estudo inclui uma implementação prática usando Spring Boot para demonstrar 
 
 1. Clone o repositório
 ```bash
-git clone https://github.com/seu-usuario/nome-do-repo.git
+git clone https://github.com/arthurvieira2003/code-analysis.git
 ```
 
 2. Instale as dependências
